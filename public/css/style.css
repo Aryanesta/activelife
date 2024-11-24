@@ -1,0 +1,334 @@
+:root {
+    --danger: #dc3545;
+    --darker-danger: #b42634;
+    --lighter-danger: #e85161;
+    --bg-main: #ffffff;
+    --secondary: #e2e2e2;
+}
+
+body {
+    background-color: var(--bg-main);
+    overflow-x: hidden;
+}
+
+/* Header */
+.head {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 10px;
+}
+
+#brand {
+    text-align: center;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar .search input {
+    border-radius: 50px 0 0 50px;
+    width: 85%;
+    height: 40px;
+}
+.search-bar .search button {
+    border-radius: 0 50px 50px 0;
+    width: 15%;
+}
+
+.search-bar .search button:hover {
+    background-color: var(--darker-danger);
+}
+
+.right-head {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 5px;
+    /* background-color: black; */
+}
+
+.right-head a {
+    font-size: 1.4rem;
+}
+
+#button-profile {
+    outline: none;
+    box-shadow: none;
+}
+
+#icon-profile {
+    margin-right: 2px;
+    font-size: 1.5rem;
+}
+
+.right-head a small {
+    font-size: 11px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0.25rem rgba(255, 0, 0, 0.25);
+    border-color: #ffffff;
+}
+
+#cart-quantity {
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    border-radius: 50%;
+    right: -30%;
+    top: 50%;
+}
+/* End Header */
+
+/* Nav */
+/* .nav-pills .nav-item .nav-link.active {
+    background-color: var(--lighter-danger);
+    color: #fff;
+    border-radius: 20px;
+} */
+
+.nav-item .nav-link.active {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    justify-content: start;
+    box-shadow: 0 0 3px rgb(94, 94, 94);
+}
+
+nav span {
+    margin-inline: 30px;
+}
+
+nav span a.nav-link {
+    color: black;
+    font-weight: 500;
+    font-size: large;
+}
+
+nav span a.nav-link:hover {
+    color: var(--danger);
+}
+
+#nav-toggler {
+    display: none;
+}
+
+/* Nav end */
+
+/* SPinner */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Slightly transparent black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* Loading animation container */
+.loading-animation {
+    text-align: center;
+    color: #fff;
+}
+
+/* Ring spinner animation */
+.spinner-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border: 8px solid rgba(255, 255, 255, 0.3); /* Light border */
+    border-top: 8px solid #fff; /* White border for animation */
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 15px;
+}
+
+/* Loading text style */
+.loading-animation p {
+    font-size: 1.2em;
+    font-family: Arial, sans-serif;
+    opacity: 0.9;
+}
+
+/* Spinner animation keyframes */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Spinner End */
+
+/* Product */
+
+#cart-screen {
+    height: 100vh;
+    width: 350px;
+    position: absolute;
+    right: -350px;
+    z-index: 998;
+}
+
+#cart-screen-toggler {
+    cursor: pointer;
+}
+
+/* Product End */
+
+@media (max-width: 1200px) {
+    .card-title,
+    .summary-text {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 992px) {
+    #products {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header */
+    .head {
+        grid-template-columns: 1.8fr 1fr;
+        grid-template-areas: "left right";
+        gap: 5px;
+    }
+
+    #brand {
+        grid-area: left;
+    }
+
+    .right-head {
+        grid-area: right;
+    }
+
+    .right-head a {
+        scale: 1.2;
+    }
+
+    .search-bar {
+        grid-column: span 2;
+    }
+
+    .search-bar .search input {
+        width: 75%;
+    }
+    .search-bar .search button {
+        width: 25%;
+    }
+
+    #username {
+        display: none;
+    }
+    /* Header end */
+
+    /* Nav */
+    nav {
+        flex-direction: column;
+        justify-content: start;
+        position: absolute;
+        z-index: 999;
+        background-color: var(--bg-main);
+        left: -100%;
+        width: 500px;
+        height: 100vh;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    nav span {
+        margin: 0;
+    }
+
+    nav span a.nav-link {
+        font-weight: 400;
+    }
+
+    .nav-item .nav-link.active {
+        color: var(--danger);
+        background-color: var(--secondary);
+        font-weight: bold;
+    }
+
+    /* Gaya dasar untuk tombol navbar */
+    #nav-toggler {
+        display: block;
+        margin-right: 5px;
+    }
+
+    .navbar-toggler {
+        border: none;
+        background-color: transparent;
+        padding: 0.25rem 0.75rem;
+        font-size: 1.25rem;
+        cursor: pointer;
+        border-radius: 0.25rem;
+    }
+
+    /* Menambahkan ikon hamburger */
+    .navbar-toggler-icon {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        vertical-align: middle;
+        content: "";
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    .btn-text {
+        display: none;
+    }
+    /* Nav end */
+
+    /* Product STart */
+
+    .card-title,
+    .summary-text {
+        font-size: 1rem; /* Ukuran font lebih kecil untuk judul kartu */
+    }
+    .card-text {
+        font-size: 0.8rem; /* Ukuran font lebih kecil untuk teks kartu */
+    }
+    /* Product End */
+}
+
+@media (max-width: 576px) {
+    /* Nav */
+    nav {
+        position: fixed;
+        width: 200px;
+    }
+    /* Nav End */
+    .card-title {
+        font-size: 0.8rem; /* Ukuran font lebih kecil untuk judul kartu */
+    }
+    .card-text {
+        font-size: 0.5rem; /* Ukuran font lebih kecil untuk teks kartu */
+    }
+
+    .summary-text {
+        font-size: 1rem;
+    }
+}
