@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: `/admin/transaction/${transactionId}`, // Sesuaikan URL
+            url: `/admin/transaction/${transactionId}`,
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
@@ -151,7 +151,105 @@ $(document).ready(function () {
                 });
 
                 $("#product-tbody").append(productRows);
+
+                let footer = "";
+
+                if (data.transaction.process_status == "unconfirm") {
+                    footer = `
+                    <button class="btn btn-success confirm-btn">Konfirmasi Pesanan</button>
+                    <button class="btn btn-danger reject-btn">Tolak Pesanan</button>
+                    `;
+                } else if (data.transaction.process_status == "process") {
+                    footer = `
+                      <span class="fw-bold mb-3 mb-md-0">Transaksi Berlangsung</span>
+                      <select class="form-select w-100 w-md-auto" id="transaction-detail-print">
+                          <option value="process" selected>Diproses</option>
+                          <option value="shipping">Dikirim</option>
+                      </select>
+                    `;
+                } else if (data.transaction.process_status == "shipping") {
+                    footer = `
+                    <span class="fw-bold mb-3 mb-md-0">Transaksi Berlangsung</span>
+                    <select class="form-select w-100 w-md-auto" id="transaction-detail-print">
+                        <option value="process">Diproses</option>
+                        <option value="shipping" selected>Dikirim</option>
+                    </select>
+                  `;
+                } else if (data.transaction.process_status == "success") {
+                    footer = `<button class="btn btn-success confirm-btn">Pesanan sukses!</button>`;
+                } else {
+                    footer = `<button class="btn btn-danger">Pesanan ditolak</button>`;
+                }
+
+                $(".card-footer").empty();
+                $(".card-footer").html(footer);
             },
+        });
+
+        $(document).on("click", ".confirm-btn", function () {
+            $.ajax({
+                type: "PUT",
+                url: "/api/admin/transaction/confirm",
+                data: { transaction_id: transactionId },
+                success: function (data) {
+                    toastr.options.positionClass = "toast-bottom-right";
+                    toastr.success(data.message);
+
+                    footer = `
+                        <span class="fw-bold mb-3 mb-md-0">Transaksi Berlangsung</span>
+                        <select class="form-select w-100 w-md-auto" id="transaction-detail-print">
+                            <option value="process">Diproses</option>
+                            <option value="shipping">Dikirim</option>
+                        </select>
+                    `;
+
+                    $(".card-footer").empty();
+                    $(".card-footer").html(footer);
+                },
+            });
+        });
+
+        $(document).on("click", ".reject-btn", function () {
+            $.ajax({
+                type: "PUT",
+                url: "/api/admin/transaction/reject",
+                data: { transaction_id: transactionId },
+                success: function (data) {
+                    toastr.options.positionClass = "toast-bottom-right";
+                    toastr.success(data.message);
+
+                    footer = `<button class="btn btn-danger">Pesanan ditolak</button>`;
+
+                    $(".card-footer").empty();
+                    $(".card-footer").html(footer);
+                },
+            });
+        });
+
+        $(document).on("change", "#transaction-detail-print", function () {
+            let selectedValue = $(this).val();
+
+            $.ajax({
+                type: "PUT",
+                url: "/api/admin/transaction/update-status",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    transaction_id: transactionId,
+                    process_status: selectedValue,
+                },
+                success: function (data) {
+                    toastr.options.positionClass = "toast-bottom-right";
+                    toastr.success(data.message);
+                },
+                error: function (xhr, status, error) {
+                    toastr.options.positionClass = "toast-bottom-right";
+                    toastr.error("Terjadi kesalahan: " + error);
+                },
+            });
         });
     });
 

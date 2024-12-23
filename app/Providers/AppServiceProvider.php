@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Cart;
+use App\Models\ProductCategory;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -34,5 +36,12 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('cartQuantity', 0);
             }
         });
+
+        View::composer('partials.nav', function($view) {
+            $category = ProductCategory::all();
+            $view->with('categories', $category);
+        });
+
+        Paginator::useBootstrapFive();
     }
 }

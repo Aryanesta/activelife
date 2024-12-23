@@ -95,6 +95,10 @@ body {
     font-weight: bold;
 }
 
+nav div span.nav-link.active {
+    color: var(--danger);
+    font-weight: bold;
+}
 nav {
     display: flex;
     justify-content: start;
@@ -106,6 +110,12 @@ nav span {
 }
 
 nav span a.nav-link {
+    color: black;
+    font-weight: 500;
+    font-size: large;
+}
+
+nav div span.nav-link {
     color: black;
     font-weight: 500;
     font-size: large;
@@ -188,8 +198,46 @@ nav span a.nav-link:hover {
 
 /* Product End */
 
+/* Profile */
+
+.profile-nav > a {
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.profile-nav a i {
+    margin-right: 10px;
+}
+
+.dropdown-menu {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+    background-color: var(--danger);
+    border-color: var(--danger);
+}
+
+.pagination .page-link {
+    color: gray;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+}
+
 @media (max-width: 1200px) {
-    .card-title,
     .summary-text {
         font-size: 0.95rem;
     }
@@ -199,6 +247,9 @@ nav span a.nav-link:hover {
     #products {
         display: flex;
         justify-content: center;
+    }
+    .product-button {
+        display: none;
     }
 }
 
@@ -303,13 +354,8 @@ nav span a.nav-link:hover {
     /* Nav end */
 
     /* Product STart */
-
-    .card-title,
     .summary-text {
         font-size: 1rem; /* Ukuran font lebih kecil untuk judul kartu */
-    }
-    .card-text {
-        font-size: 0.8rem; /* Ukuran font lebih kecil untuk teks kartu */
     }
     /* Product End */
 }
@@ -318,16 +364,9 @@ nav span a.nav-link:hover {
     /* Nav */
     nav {
         position: fixed;
-        width: 200px;
+        width: 250px;
     }
     /* Nav End */
-    .card-title {
-        font-size: 0.8rem; /* Ukuran font lebih kecil untuk judul kartu */
-    }
-    .card-text {
-        font-size: 0.5rem; /* Ukuran font lebih kecil untuk teks kartu */
-    }
-
     .summary-text {
         font-size: 1rem;
     }

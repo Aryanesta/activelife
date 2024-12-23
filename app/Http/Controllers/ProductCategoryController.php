@@ -16,7 +16,7 @@ class ProductCategoryController extends Controller
     {
         return view('/admin/product-category', [
             'title' => 'Product Category',
-            'productCategories' => ProductCategory::latest()->get()
+            'productCategories' => ProductCategory::latest()->paginate(12)
         ]);
     }
 
@@ -77,10 +77,27 @@ class ProductCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductCategory $productCategory)
+    public function destroy(ProductCategory $category)
     {
-        ProductCategory::destroy($productCategory->id);
+        // dd($category);
+        if ($category->products()->exists()) {
+            return redirect(route('category.index'))
+                ->with('error', 'Cannot delete category. It is still associated with one or more products.');
+        }
+    
+        ProductCategory::destroy($category->id);
         
         return redirect(route('category.index'))->with('success', 'Category deleted successfully!');
+    }
+
+    public function getCategoryByName(Request $request) {
+        $query = $request->input('query-input');
+        
+        $categories = ProductCategory::where('category_name', 'like', '%'.$query.'%')->paginate(12);
+
+        return view('/admin/product-category', [
+            'title' => 'Product Category',
+            'productCategories' => $categories
+        ]);
     }
 }

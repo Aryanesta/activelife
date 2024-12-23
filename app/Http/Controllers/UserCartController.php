@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
-use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\StoreCartRequest;
+use App\Http\Requests\UpdateCartRequest;
 
 class UserCartController extends Controller
 {
@@ -18,10 +19,11 @@ class UserCartController extends Controller
     public function index()
     {
         $user = Auth::id();
+        $cartProducts = Cart::with('cartItems')->where('user_id', $user)->get();
     
         return view('cart', [
             'title' => 'Cart',
-            'cart_products' => Cart::with('cartItems')->where('user_id', $user)->get(),
+            'cart_products' => $cartProducts,
         ]); 
     }
 
@@ -38,6 +40,12 @@ class UserCartController extends Controller
      */
     public function store(Request $request)
     {
+
+        $product = Product::find($request['product_id']);
+        if (!$product || $product->stock < $request['quantity']) {
+            return response()->json(['error' => 'Insufficient stock of goods'], 400);
+        }
+
         $validatedData = $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',

@@ -15,7 +15,7 @@ class AdminTransactionController extends Controller
     {
         return view('admin/transaction', [
             'title' => 'Transaction Record',
-            'transactions' => Transaction::with('products')->get(),
+            'transactions' => Transaction::with('products')->latest()->paginate(10),
         ]);
     }
 
@@ -77,5 +77,54 @@ class AdminTransactionController extends Controller
     public function destroy(Transaction $transaction)
     {
         //
+    }
+
+    public function confirm_transaction(Request $request)
+    {
+        $transaction_id = $request->input('transaction_id');
+        $transaction = Transaction::findOrFail($transaction_id);
+        
+        $transaction->process_status = 'process';
+        $transaction->save();
+        return response()->json([
+            'message' => "Transaksi berhasil diverifikasi",
+            ], 200);
+    }
+    public function reject_transaction(Request $request)
+    {
+        $transaction_id = $request->input('transaction_id');
+        $transaction = Transaction::findOrFail($transaction_id);
+        
+        $transaction->process_status = 'reject';
+        $transaction->save();
+        return response()->json([
+            'message' => "Transaksi ditolak",
+            ], 200);
+    }
+
+    public function update_status(Request $request)
+    {
+        $transaction_id = $request->input('transaction_id');
+        $process_status = $request->input('process_status');
+        $transaction = Transaction::findOrFail($transaction_id);
+
+        $transaction->process_status = $process_status;
+        $transaction->save();
+        return response()->json([
+            'message' => "Status transaksi berhasil diubah",
+            ], 200);
+    }
+
+    public function getTransactionByOrderId(Request $request) {
+        $query = $request->input('query-input');
+        
+        $transactions = Transaction::where('order_id', 'like', '%'.$query.'%')
+        ->orWhere('transaction_id', 'like', '%'.$query.'%')
+        ->paginate(10);
+
+        return view('admin.transaction', [
+            'title' => 'Transaction Record',
+            'transactions' => $transactions,
+        ]);
     }
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="generator" content="Hugo 0.84.0">
     <title>ActiveLife | {{ $title }}</title>
 
@@ -18,6 +19,13 @@
 
     {{-- Bootstrap Icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {{-- Chart JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <style>
       .bd-placeholder-img {
@@ -50,19 +58,9 @@
     @include('partials.dashboard-topbar')
     @include('partials.dashboard-nav')
     
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-4 mb-5">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">{{ $title }}</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <i class="bi bi-calendar"></i> <!-- Ikon Calendar -->
-            This week
-          </button>
-        </div>
+        <h1 class="h2 mt-5">{{ $title }}</h1>
       </div>
 
       @yield('container')

@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ActiveLife | {{ $title }}</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>ActiveLife | {{ $title ?? ''}}</title>
 
     {{-- My Style --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     {{-- Bootstrap --}}
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
+
 
     {{-- Bootstrap Icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -56,7 +58,7 @@
 
     {{-- JS --}}
     <script src="{{ asset('js/script.js') }}"></script>
-
+    
     <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
